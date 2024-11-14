@@ -1,0 +1,22 @@
+ImprimeMatriz
+                 XOR        BX,BX
+                 XOR        SI,SI
+                 MOV        CX,10
+                 JMP        L1
+    MudaLinha:   
+                 XOR        BX,BX            ; zera o índice da coluna
+                 ADD        SI,20                  ; Muda a linha
+                 MOV        CX,10                  ;Volta o valor de cx para o loop
+                 CMP        SI,180
+                 JG         Retornaimp
+    L1:          
+                 pula_linha
+                 MOV        AH, 02H
+    IMPRIMELINHA:
+                 MOV        DX, !!!MATRIZIMP!!! [SI][BX]    ; coloca o elemento MATRIZ4X4[0,0] em AL ;TROCAR NOME
+                 OR         DL,30H                 ; nUmero em caractere
+                 INT        21H
+                 ADD        BX,2
+                 LOOP       IMPRIMELINHA
+                 JMP        MudaLinha
+    Retornaimp:

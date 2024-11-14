@@ -1,0 +1,28 @@
+1- Definir as matrizes e limitações; Feito
+2- Definir matriz que ocorera o jogo e zerar outra para imprimir; Feito
+3- Modo de exibição do programa;
+4- Leitura - (J especial) e registro de acerto ou erro e inserir a opção de derrota por desistencias;
+5- Definir vitoria ou derrota;
+6- Jogar Novamente (Se der tempo);
+
+
+Tarefas:
+Lari e Sab: 
+
+1- Definir as embarcações no quadrante(Em um arquivo txt pls);
+2- Fazer uma versão do "deus me ajuda" comentado;
+3- Consertar quando enta com uma soma menor ou igual a 4;
+4- Manual do usuario;
+
+temos essas
+
+DW 0,0,0,0,0,0,1,1,1,0     ,     1,1,1,0,0,0,0,0,0,0
+                 DW 0,0,1,0,0,0,0,1,0,0     ,     0,0,0,0,1,0,0,0,0,0
+                 DW 0,0,1,0,0,0,0,0,0,0     ,     0,0,0,1,1,0,0,0,0,0
+                 DW 0,0,0,0,0,0,0,1,0,0     ,     0,0,0,0,1,0,1,1,0,0
+                 DW 0,0,0,0,0,0,0,1,1,0     ,     0,0,0,0,0,0,0,0,0,0
+                 DW 0,0,0,0,0,0,0,1,0,0     ,     1,1,1,1,0,0,0,0,0,0
+                 DW 1,1,1,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,1,0,0
+                 DW 0,0,0,0,0,1,1,0,0,0     ,     1,1,0,0,0,0,0,1,1,0
+                 DW 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,1,0,0
+                 DW 1,1,1,1,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
