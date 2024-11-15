@@ -196,15 +196,12 @@ ESPAÇO
                      MOV               CX, 9
                      MOV               AL, 31H
                      MOV               AH, 02H
-                     
-    NUMEROS:         
-                     MOV               DL,AL
+    NUMEROS1:        
 ESPAÇO
 ESPAÇO
 ESPAÇO
-                     INT               21H
-                     INC               AL
-                     LOOP              NUMEROS
+                     NUMEROS
+                     LOOP              NUMEROS1
 
 ESPAÇO
 ESPAÇO
@@ -232,19 +229,18 @@ ESPAÇO
                      ADD               SI, 20
                      MOV               CX, 10
                      CMP               SI, 180
+                     PULA_LINHA
                      JG                FIM
     L1:              
                      PULA_LINHA
                      TAB
                      TAB
                      MOV               AH, 02H
-                     MOV               DX, [DI]
-                     ADD               DI, 2
-                     INT               21H
+                     LETRAS
     IMPRIMELINHA:    
-    ESPAÇO
-    ESPAÇO
-    ESPAÇO
+ESPAÇO
+ESPAÇO
+ESPAÇO
                      MOV               DX, MATRIZIMPRESSÃO[SI][BX]
                      OR                DL, 30H
                      INT               21H
