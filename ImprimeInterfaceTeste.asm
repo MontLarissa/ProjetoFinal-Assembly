@@ -99,7 +99,7 @@ ENDM
                  DW 3,3,3,3,3,3,3,3,3,3     ,     4,4,4,4,4,4,4,4,4,4
                      
 MATRIZIMPRESSÃO DW 10 DUP(10 DUP('~'))
-    LETRA       DB 41H
+    LETRA        DW 41H,42H,43H,44H,45H,46H,47H,48H,49H,04AH
 
     VETOR        DB 10 DUP (0)
     ;Mensagens;
@@ -201,11 +201,11 @@ INICIAR PROC
 INICIAR ENDP
 IMPRIMEINTERFACE PROC
                      SALVAMJOGO
-                     Controle_Programa MSGCONTROLE
                      LIMPA_TELA
                      Pula_linha
                      TAB
                      TAB
+ESPAÇO
                      MOV               CX, 9
                      MOV               AL, 31H
                      MOV               AH, 02H
@@ -218,6 +218,8 @@ ESPAÇO
                      INT               21H
                      INC               AL
                      LOOP              NUMEROS
+
+ESPAÇO
 ESPAÇO
 ESPAÇO
                      MOV               CX,2
@@ -228,42 +230,41 @@ ESPAÇO
                      INT               21H
                      DEC               AL
                      LOOP              IMP10
+
     MATRIZELETRAS:   
                      PULA_LINHA
                      TAB
                      TAB
-                     MOV               AL,LETRA
-                     XOR               BX,BX
-                     XOR               SI,SI
-                     MOV               CX,10
+                     LEA               DI, LETRA
+                     XOR               BX, BX
+                     XOR               SI, SI
+                     MOV               CX, 10
                      JMP               L1
-    MudaLinha:       
-
-                     XOR               BX,BX                          ; zera o índice da coluna
-                     ADD               SI,20                          ; Muda a linha
-                     MOV               CX,10                          ;Volta o valor de cx para o loop
-                     CMP               SI,180
+    MUDALINHA:       
+                     XOR               BX, BX
+                     ADD               SI, 20
+                     MOV               CX, 10
+                     CMP               SI, 180
+                     PULA_LINHA
                      JG                FIM
     L1:              
-                     
-                     pula_linha
+                     PULA_LINHA
                      TAB
-                     MOV               DL,AL
-                     MOV               AH,02
-                     INT               21h
-                     INC AL
                      TAB
                      MOV               AH, 02H
-    IMPRIMELINHA:    
-ESPAÇO
-ESPAÇO
-ESPAÇO
-                     MOV               DX, MATRIZIMPRESSÃO[SI][BX]    ; coloca o elemento MATRIZ4X4[0,0] em AL ;TROCAR NOME
-                     OR                DL,30H                         ; nUmero em caractere
+                     MOV               DX, [DI]
+                     ADD               DI, 2
                      INT               21H
-                     ADD               BX,2
+    IMPRIMELINHA:    
+    ESPAÇO
+    ESPAÇO
+    ESPAÇO
+                     MOV               DX, MATRIZIMPRESSÃO[SI][BX]
+                     OR                DL, 30H
+                     INT               21H
+                     ADD               BX, 2
                      LOOP              IMPRIMELINHA
-                     JMP               MudaLinha
+                     JMP               MUDALINHA
     FIM:             
                      VOLTAVALOR
                      RET
