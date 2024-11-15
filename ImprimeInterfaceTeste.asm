@@ -52,15 +52,15 @@ VOLTAVALOR MACRO
                POP DI
 ENDM
 ESPAÇO MACRO
-    PUSH AX
-    PUSH DX
+        PUSH AX
+        PUSH DX
 
-    MOV AH, 02H
-    MOV DL, 20H
-    INT 21H
+        MOV AH, 02H
+        MOV DL, 20H
+        INT 21H
 
-    POP DX
-    POP AX
+        POP DX
+        POP AX
 ENDM
 TAB MACRO
          PUSH AX
@@ -73,7 +73,16 @@ TAB MACRO
          POP  DX
          POP  AX
 ENDM
-
+NUMEROS MACRO
+            MOV DL,AL
+            INT 21H
+            INC AL
+ENDM
+LETRAS MACRO
+           MOV DX, [DI]
+           ADD DI, 2
+           INT 21H
+ENDM
 ;!!Ajeitar as matrizes!!;
 .DATA
     MATRIZMAPA   DW 0,0,0,0,0,0,1,1,1,0     ,     1,1,1,0,0,0,0,0,0,0
@@ -209,15 +218,12 @@ ESPAÇO
                      MOV               CX, 9
                      MOV               AL, 31H
                      MOV               AH, 02H
-                     
-    NUMEROS:         
-                     MOV               DL,AL
+    NUMEROS1:        
 ESPAÇO
 ESPAÇO
 ESPAÇO
-                     INT               21H
-                     INC               AL
-                     LOOP              NUMEROS
+                     NUMEROS
+                     LOOP              NUMEROS1
 
 ESPAÇO
 ESPAÇO
@@ -252,13 +258,11 @@ ESPAÇO
                      TAB
                      TAB
                      MOV               AH, 02H
-                     MOV               DX, [DI]
-                     ADD               DI, 2
-                     INT               21H
+                     LETRAS
     IMPRIMELINHA:    
-    ESPAÇO
-    ESPAÇO
-    ESPAÇO
+ESPAÇO
+ESPAÇO
+ESPAÇO
                      MOV               DX, MATRIZIMPRESSÃO[SI][BX]
                      OR                DL, 30H
                      INT               21H

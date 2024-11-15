@@ -15,12 +15,6 @@ PULA_LINHA MACRO
                POP  DX
                POP  AX
 ENDM
-;Remover em Projeto Final;
-Controle_Programa MACRO CONTROLE
-                      LEA DX, CONTROLE
-                      MOV AH,09
-                      INT 21H
-ENDM
 INFORMATRIZ MACRO COLUNAINICIAL, LINHAINICIAL,LINHAFINAL
                 MOV BX,COLUNAINICIAL
                 MOV SI,LINHAINICIAL
@@ -73,7 +67,16 @@ TAB MACRO
          POP  DX
          POP  AX
 ENDM
-
+NUMEROS MACRO
+            MOV DL,AL
+            INT 21H
+            INC AL
+ENDM
+LETRAS MACRO
+           MOV DX, [DI]
+           ADD DI, 2
+           INT 21H
+ENDM
 ;!!Ajeitar as matrizes!!;
 .DATA
     MATRIZMAPA   DW 0,0,0,0,0,0,1,1,1,0     ,     1,1,1,0,0,0,0,0,0,0
@@ -98,10 +101,8 @@ ENDM
                  DW 3,3,3,3,3,3,3,3,3,3     ,     4,4,4,4,4,4,4,4,4,4
                  DW 3,3,3,3,3,3,3,3,3,3     ,     4,4,4,4,4,4,4,4,4,4
                      
-MATRIZIMPRESSÃO DW 10 DUP(10 DUP('~'))
+    MATRIZIMPRESSÃO DW 10 DUP(10 DUP('~'))
     LETRA        DW 41H,42H,43H,44H,45H,46H,47H,48H,49H,04AH
-
-    VETOR        DB 10 DUP (0)
     ;Mensagens;
     ;Pagina Inicial;
     LOGO1        DB 13,10,'              ===================================================              ', '$'
@@ -110,12 +111,6 @@ MATRIZIMPRESSÃO DW 10 DUP(10 DUP('~'))
     LOGO4        DB 13,10,'              =                                                 =            ','$'
     LOGO5        DB 13,10,'              ===================================================              ', 13,10, '$'
     ENTMSG1      DB 13,10,'              Insira ate 3 numeros de 0-9 para iniciar o jogo:', '$'
-    MSGCONTROLE  DB 13,10,'OK1', '$'
-    MSGCONTROLE1 DB 13,10,'OK2', '$'
-    MSGCONTROLE2 DB 13,10,'OK3', '$'
-    MSGCONTROLE3 DB 13,10,'OK4', '$'
-
-
 .CODE
 MAIN PROC
     ;Acesso ao DATA
@@ -170,29 +165,21 @@ INICIAR PROC
     PulaParaFim:     
                      JMP               RetornaEnt
     QUA1:            
-                     Controle_Programa MSGCONTROLE
                      INFORMATRIZ       0,0,360
-                     Controle_Programa MSGCONTROLE
                      SALVAMJOGO
                      JMP               RetornaEnt
     QUA2:            
 
-                     Controle_Programa MSGCONTROLE1
                      INFORMATRIZ       20,0,360
-                     Controle_Programa MSGCONTROLE1
                      SALVAMJOGO
                      JMP               RetornaEnt
     QUA3:            
 
-                     Controle_Programa MSGCONTROLE2
                      INFORMATRIZ       0,400,760
-                     Controle_Programa MSGCONTROLE2
                      SALVAMJOGO
                      JMP               RetornaEnt
     QUA4:            
-                     Controle_Programa MSGCONTROLE3
                      INFORMATRIZ       20,400,760
-                     Controle_Programa MSGCONTROLE3
                      SALVAMJOGO
                      JMP               RetornaEnt
     RetornaEnt:      
