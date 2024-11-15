@@ -115,14 +115,10 @@ INICIAR PROC
                   IMPMENSAG         LOGO4
                   IMPMENSAG         LOGO5
                   IMPMENSAG         ENTMSG1
-
-
                   MOV               CX, 3
                   XOR               BX,BX
                   XOR               DX,DX
                   MOV               AH,1
-                      
-
     LerEnt:       
                   INT               21h
                   CMP               AL, 0DH
@@ -169,10 +165,8 @@ INICIAR PROC
                   Controle_Programa MSGCONTROLE2
                   JMP               RetornaEnt
     QUA4:         
-
                   Controle_Programa MSGCONTROLE3
                   JMP               RetornaEnt
-
     RetornaEnt:   
                   RET
 INICIAR ENDP
