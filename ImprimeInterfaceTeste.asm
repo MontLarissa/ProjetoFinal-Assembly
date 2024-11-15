@@ -123,6 +123,11 @@ MATRIZIMPRESSÃO DW 10 DUP(10 DUP('~'))
     MSGCONTROLE1 DB 13,10,'OK2', '$'
     MSGCONTROLE2 DB 13,10,'OK3', '$'
     MSGCONTROLE3 DB 13,10,'OK4', '$'
+    PEDECORDENADA      DB 13,10,'              Informe a cordenada do tiro:', '$'
+    CORDENADANAOACEITA DB 13,10,'              Cordenada nao encontrada, tente novamente', '$'
+    ACERTODETIRO       DB 13,10,'              Acerto de tiro!', '$'
+    ERRODETIRO         DB 13,10,'              Nao ha inimigos nessa cordenada.', '$'
+    SAIRJOGO           DB 13,10,'              Para sair do jogo aperte ESC', '$'
 
 
 .CODE
@@ -208,69 +213,47 @@ INICIAR PROC
                      VOLTAVALOR
                      RET
 INICIAR ENDP
-IMPRIMEINTERFACE PROC
-                     SALVAMJOGO
-                     LIMPA_TELA
-                     Pula_linha
-                     TAB
-                     TAB
-ESPAÇO
-                     MOV               CX, 9
-                     MOV               AL, 31H
-                     MOV               AH, 02H
-    NUMEROS1:        
-ESPAÇO
-ESPAÇO
-ESPAÇO
-                     NUMEROS
-                     LOOP              NUMEROS1
+INTERFACE PROC
+                   LIMPA_TELA
+                   SALVAMJOGO
+                   JMP               INICIO
+    ERRORCOR:      
+                   IMPMENSAG         CORDENADANAOACEITA
+    INICIO:        
+                   IMPMENSAG         PEDECORDENADA
+    
+                   LEA               SI, ARMAZENACORDENADA
+                   MOV               CX, 2
+                   MOV               AH, 01
+    PEGACORDENADAS:
+                   CMP AL,27H
+                   MOV               DX,AX
+                   INT               21h
+                   MOV               [SI],DX
+                   ADD               SI,2
+                   LOOP              PEGACORDENADAS
 
-ESPAÇO
-ESPAÇO
-ESPAÇO
-                     MOV               CX,2
-                     MOV               AL, 31H
-    IMP10:           
-                     MOV               DL, AL
-                     MOV               AH, 02H
-                     INT               21H
-                     DEC               AL
-                     LOOP              IMP10
-
-    MATRIZELETRAS:   
-                     PULA_LINHA
-                     TAB
-                     TAB
-                     LEA               DI, LETRA
-                     XOR               BX, BX
-                     XOR               SI, SI
-                     MOV               CX, 10
-                     JMP               L1
-    MUDALINHA:       
-                     XOR               BX, BX
-                     ADD               SI, 20
-                     MOV               CX, 10
-                     CMP               SI, 180
-                     PULA_LINHA
-                     JG                FIM
-    L1:              
-                     PULA_LINHA
-                     TAB
-                     TAB
-                     MOV               AH, 02H
-                     LETRAS
-    IMPRIMELINHA:    
-ESPAÇO
-ESPAÇO
-ESPAÇO
-                     MOV               DX, MATRIZIMPRESSÃO[SI][BX]
-                     OR                DL, 30H
-                     INT               21H
-                     ADD               BX, 2
-                     LOOP              IMPRIMELINHA
-                     JMP               MUDALINHA
-    FIM:             
-                     VOLTAVALOR
-                     RET
-IMPRIMEINTERFACE ENDP
-END MAIN
+    CONVERTELETRA: 
+                   MOV SI,0
+                   MOV               AX,[SI]
+                   JMP               COMPL
+    MINUSCULO:     
+                   SUB               AX, 20H
+    COMPL:         
+                   CMP               AX, 4AH
+                   JGE MINUSCULO
+                   SUB               AX,41H
+                   MOV BX, 2
+                   MUL BX
+                   MOV [SI],DX
+CONVERTENUMERO: 
+                   MOV SI,2
+                   MOV               AX,[SI]
+    COMPN:         
+                   SUB               AX,30H
+                   MOV BX, 2
+                   MUL BX
+                   MOV [SI],DX
+                   VOLTAVALOR
+                   RET                  
+INTERFACE ENDP
