@@ -193,8 +193,8 @@ IMPRIMEINTERFACE PROC
                      TAB
                      TAB
 ESPAÇO
-                     MOV               CX, 9
-                     MOV               AL, 31H
+                     MOV               CX, 10
+                     MOV               AL, 30H
                      MOV               AH, 02H
     NUMEROS1:        
 ESPAÇO
@@ -202,18 +202,6 @@ ESPAÇO
 ESPAÇO
                      NUMEROS
                      LOOP              NUMEROS1
-
-ESPAÇO
-ESPAÇO
-ESPAÇO
-                     MOV               CX,2
-                     MOV               AL, 31H
-    IMP10:           
-                     MOV               DL, AL
-                     MOV               AH, 02H
-                     INT               21H
-                     DEC               AL
-                     LOOP              IMP10
 
     MATRIZELETRAS:   
                      PULA_LINHA
