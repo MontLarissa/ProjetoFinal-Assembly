@@ -176,78 +176,80 @@ INICIAR PROC
     PulaParaFim:     
                      JMP               RetornaEnt           ;Salta para RetornaEnt
     QUA1:            
-                     INFORMATRIZ       0,0,360
-                     SALVAMJOGO
-                     JMP               RetornaEnt
+                     INFORMATRIZ       0,0,360              ;Define os limites da matriz para a área do quadrante 1     
+                     SALVAMJOGO                             ;Salva o estado atual na pilha
+                     JMP               RetornaEnt           ;Salta para RetornaEnt
     QUA2:            
 
-                     INFORMATRIZ       20,0,360
-                     SALVAMJOGO
+                     INFORMATRIZ       20,0,360             ;Define os limites da matriz para a área do quadrante       
+                     SALVAMJOGO                             
                      JMP               RetornaEnt
     QUA3:            
 
-                     INFORMATRIZ       0,400,760
+                     INFORMATRIZ       0,400,760            ;Define os limites da matriz para a área do quadrante 
                      SALVAMJOGO
                      JMP               RetornaEnt
     QUA4:            
-                     INFORMATRIZ       20,400,760
+                     INFORMATRIZ       20,400,760           ;Define os limites da matriz para a área do quadrante 1
                      SALVAMJOGO
                      JMP               RetornaEnt
     RetornaEnt:      
                      VOLTAVALOR
                      RET
 INICIAR ENDP
+;Interface do game
 IMPRIMEINTERFACE PROC
-                     SALVAMJOGO
-                     LIMPA_TELA
-                     Pula_linha
-                     TAB
-                     TAB
+                     SALVAMJOGO                             ;Salva o estado atual do jogo na pilha
+                     LIMPA_TELA                             ;Limpa a tela 
+                     Pula_linha                             ;Move o cursor para a próxima linha
+                     TAB                                    ;Tabulação para posicionamneto inicial
+                     TAB                                    ;Tabulação para espaçamento adicional
+;Adiciona um espaço fixo na interface
 ESPAÇO
-                     MOV               CX, 10
-                     MOV               AL, 30H
+                     MOV               CX, 10               ;Contador para imprimir números
+                     MOV               AL, 30H              ;Inicializa AL 
                      MOV               AH, 02H
     NUMEROS1:        
 ESPAÇO
 ESPAÇO
 ESPAÇO
-                     NUMEROS
-                     LOOP              NUMEROS1
+                     NUMEROS                                ;Exibição do número em AL e do incrementado
+                     LOOP              NUMEROS1             ;Decrementa CX e repete até que CX seja zero
 
     MATRIZELETRAS:   
                      PULA_LINHA
                      TAB
                      TAB
-                     LEA               DI, LETRA
+                     LEA               DI, LETRA            ;Lê o endereço do array de letras em DI
                      XOR               BX, BX
                      XOR               SI, SI
-                     MOV               CX, 10
-                     JMP               L1
+                     MOV               CX, 10               ;Define um contador para processar 10 letras
+                     JMP               L1                   ;Salta para L1 para imprimir
     MUDALINHA:       
-                     XOR               BX, BX
-                     ADD               SI, 20
-                     MOV               CX, 10
-                     CMP               SI, 180
+                     XOR               BX, BX               ;Zera BX ao mudar de linha
+                     ADD               SI, 20               ;Avança para a próxima linha
+                     MOV               CX, 10               ;Redefine o contador para 10 colunas
+                     CMP               SI, 180              ;Verifica se todas as linhas foram processadas          
                      PULA_LINHA
-                     JG                FIM
+                     JG                FIM                  ;Se SI for maior que 180, termina o proc
     L1:              
-                     PULA_LINHA
+                     PULA_LINHA                             ;Move o cursor para a próxima linha
                      TAB
                      TAB
-                     MOV               AH, 02H
+                     MOV               AH, 02H              ;Exibição
                      LETRAS
     IMPRIMELINHA:    
 ESPAÇO
 ESPAÇO
 ESPAÇO
-                     MOV               DX, MATRIZIMPRESSÃO[SI][BX]
-                     OR                DL, 30H
+                     MOV               DX, MATRIZIMPRESSÃO[SI][BX]      ;Carrega um elemento da matriz para DX
+                     OR                DL, 30H                          ;Converte o número para seu equivalente ASCII
                      INT               21H
-                     ADD               BX, 2
-                     LOOP              IMPRIMELINHA
-                     JMP               MUDALINHA
+                     ADD               BX, 2                            ;Avança para a próxima linha
+                     LOOP              IMPRIMELINHA                     ;Decrementa CX e repete
+                     JMP               MUDALINHA                        ;Após processar uma linha, alta para MUDALINHA
     FIM:             
-                     VOLTAVALOR
-                     RET
+                     VOLTAVALOR                              ;Restaura os valores originais dos regs
+                     RET                                     ;Retorna ao chamador, finalizando o proc
 IMPRIMEINTERFACE ENDP
 END MAIN
