@@ -31,7 +31,7 @@ LIMPA_TELA MACRO
                MOV BH, 07H           ;07h correspondente ao fundo preto, atributo de vídeo para preencher a tela.
                MOV CX, 0
                MOV DX, 184FH
-               INT 10H
+               INT 10H               ;Exibição
     ;Move Cursor
                MOV AH, 02H
                MOV BH, 0        ;Coluna
