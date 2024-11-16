@@ -105,7 +105,7 @@ ENDM
     LETRA        DW 41H,42H,43H,44H,45H,46H,47H,48H,49H,04AH
     ARMAZENACORDENADA  DW 2 DUP (0)
     ACERTOCONTADOR     DB 19
-    TENTATIVAS         DB 80
+    TENTATIVAS         DB 70
     ;Mensagens;
     ;Pagina Inicial;
     LOGO1        DB 13,10,'              ===================================================              ', '$'
@@ -121,15 +121,25 @@ ENDM
     ERRODETIRO         DB 13,10,'              Nao ha inimigos nessa cordenada.', '$'
     SAIRJOGO           DB 13,10,'              Para sair do jogo aperte ESC', '$'
     DESISTIUMSGDB      DB 13,10,'              Voce desistiu do jogo, que pena', '$'
+    FIMDJOGO DB 13,10,'              GAME OVER', '$'
 .CODE
 MAIN PROC
     ;Acesso ao DATA
                      MOV               AX, @DATA
-                     MOV               DS,AX
-
+                     MOV               DS,AX 
+                     
                      CALL              INICIAR
+                     
+                     XOR AX,AX
+                     MOV AL,TENTATIVAS
+                     MOV CX,AX
+        TENTATIVASS:              
                      CALL              IMPRIMEINTERFACE
                      CALL              INTERFACE
+                     LOOP TENTATIVASS
+
+                     LIMPA_TELA
+                     IMPMENSAG         FIMDJOGO
     ;Termina o programa
                      MOV               AH,4CH
                      INT               21H
