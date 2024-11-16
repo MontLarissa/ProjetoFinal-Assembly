@@ -197,6 +197,58 @@ INICIAR PROC
                      VOLTAVALOR
                      RET
 INICIAR ENDP
+IMPRIMEINTERFACE PROC
+                     SALVAMJOGO
+                     LIMPA_TELA
+                     Pula_linha
+                     TAB
+                     TAB
+ESPAÇO
+                     MOV               CX, 10
+                     MOV               AL, 30H
+                     MOV               AH, 02H
+    NUMEROS1:        
+ESPAÇO
+ESPAÇO
+ESPAÇO
+                     NUMEROS
+                     LOOP              NUMEROS1
+
+    MATRIZELETRAS:   
+                     PULA_LINHA
+                     TAB
+                     TAB
+                     LEA               DI, LETRA
+                     XOR               BX, BX
+                     XOR               SI, SI
+                     MOV               CX, 10
+                     JMP               L1
+    MUDALINHA:       
+                     XOR               BX, BX
+                     ADD               SI, 20
+                     MOV               CX, 10
+                     CMP               SI, 180
+                     JG                FIM
+    L1:              
+                     PULA_LINHA
+                     TAB
+                     TAB
+                     MOV               AH, 02H
+                     LETRAS
+    IMPRIMELINHA:    
+ESPAÇO
+ESPAÇO
+ESPAÇO
+                     MOV               DX, MATRIZIMPRESSÃO[SI][BX]
+                     OR                DL, 30H
+                     INT               21H
+                     ADD               BX, 2
+                     LOOP              IMPRIMELINHA
+                     JMP               MUDALINHA
+    FIM:             
+                     VOLTAVALOR
+                     RET
+IMPRIMEINTERFACE ENDP
 INTERFACE PROC
                          PULA_LINHA
                          SALVAMJOGO
